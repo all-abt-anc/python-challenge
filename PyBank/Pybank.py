@@ -1,9 +1,14 @@
+import os,sys
+import subprocess
+import glob
+from os import path
+
 date_list = []
 rev_list = []
 month = 0
 khan_count= 0
 change_btw_months_list = []
-with open('/Users/afnanchowdhury/Desktop/GW Bootcamp/Python/python-challenge/PyBank/budget_data_1.csv', 'r') as infile:
+with open('/Users/afnanchowdhury/Desktop/GW Bootcamp/Python/python-practice/PyBank/budget_data_1.csv', 'r') as infile:
     infile.readline()       #skipping first line
     for row in infile:      #Looping between rows
         month = month + 1   # taking the count of total row to get the total months
@@ -20,10 +25,9 @@ with open('/Users/afnanchowdhury/Desktop/GW Bootcamp/Python/python-challenge/PyB
                 change_btw_months = rev_list[chg_ind + 1] - rev_list[chg_ind]
             change_btw_months_list.append(change_btw_months) #creating new list with monthly change with the help of index value calculation
 
-print('''
-Financial Analysis
-----------------------------''')
-print ('Total Months:', month)
+
+print('''\nFinancial Analysis\n----------------------------\n''')
+print ('Total Months: ' + str( month))
 print('Total Revenue: $'+ str(sum(rev_list)))
 #print('The change in revenue between months over the entire period',change_btw_months_list)
 print ('Average Revenue Change: $'+ str(sum(change_btw_months_list)/len(change_btw_months_list)))
@@ -32,10 +36,18 @@ print ('Average Revenue Change: $'+ str(sum(change_btw_months_list)/len(change_b
 
 for max_ind in range(len(rev_list)):
     if rev_list[max_ind] == max(rev_list):
-        print ('Greatest Increase in Revenue:',date_list[max_ind],'($'+str(rev_list[max_ind])+')')
+        print ('Greatest Increase in Revenue: ' + str(date_list[max_ind]) +' ($'+str(rev_list[max_ind])+')')
 
 for min_ind in range(len(rev_list)):
     if rev_list[min_ind] == min(rev_list):
-        print('Greatest Decrease in Revenue:',date_list[min_ind],'($'+str(rev_list[min_ind])+')')
+        print('Greatest Decrease in Revenue:' + str(date_list[min_ind]) + ' ($'+str(rev_list[min_ind])+')')
 
+sys.stdout=open('PyBank.out.txt', 'w')
+print('''\nFinancial Analysis\n----------------------------\n''')
+print ('Total Months:' + str( month))
+print('Total Revenue: $'+ str(sum(rev_list)))
+print ('Average Revenue Change: $'+ str(sum(change_btw_months_list)/len(change_btw_months_list)))
+print ('Greatest Increase in Revenue: ' + str(date_list[max_ind]) +' ($'+str(rev_list[max_ind])+')')
+print('Greatest Decrease in Revenue:' + str(date_list[min_ind]) + ' ($'+str(rev_list[min_ind])+')')
+sys.stdout.close()
 
