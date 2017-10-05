@@ -1,10 +1,12 @@
 import os,sys
 import subprocess
-
+import glob
+from os import path
+import sys
 
 def print_both(file, *args):
     toprint = ' '.join([arg for arg in args])
-    print toprint
+    print (toprint)
     file.write(toprint)
 
 file =open('PyPoll.out.txt', 'w')
@@ -47,7 +49,7 @@ for keys in vote_count_per_candidate_dict:
     if vote_count_per_candidate_dict[keys] == max(vote_count_per_candidate_dict.values()):
 
 
-        print_both(file,'-------------------------\nwinner: ' + str(keys) + '\n-------------------------')
+        print_both(file,'-------------------------\nWinner: ' + str(keys) + '\n-------------------------')
 
 
 #print(vote_count_per_candidate_dict)
