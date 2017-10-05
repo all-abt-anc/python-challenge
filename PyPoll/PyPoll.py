@@ -1,8 +1,6 @@
 import os,sys
 import subprocess
-import glob
-from os import path
-import sys
+
 
 def print_both(file, *args):
     toprint = ' '.join([arg for arg in args])
