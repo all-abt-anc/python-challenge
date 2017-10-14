@@ -1442,3 +1442,17 @@ reduced_groupedby_reduced_final_merger_for_per_school_type_df
 </div>
 
 
+
+
+```python
+Observation:
+    
+    1. Comparing top and bottim list we can tell, students are struggling more with math then reading 
+       as on the bootom list we see passing rate for math is really low.
+    2. From the per student spending table we an tell that the more we spend per student less the overall passing rate we got, 
+       mostly in math. So we need focus on that more than the reading.
+    3. From the last table we tell charter school are doing pretty good where as district schools are struglling are
+       Struggling with thier overall passing rate. All these observations are suggesting us to focus on the math than the reading.
+    
+    
+```
