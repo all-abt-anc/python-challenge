@@ -205,7 +205,7 @@ students_complete_reading_passed_per_school_df = students_complete_reading_passe
 students_complete_reading_passed_per_school_df = pd.DataFrame(students_complete_reading_passed_per_school_df)
 students_complete_reading_passed_per_school_df.reset_index(inplace=True)
 students_complete_reading_passed_per_school_df.columns = ["School Name", "Total Passing Reading"]
-students_complete_reading_passed_per_school_df 
+#students_complete_reading_passed_per_school_df 
 school_student_summary_per_school_merge4_df = pd.merge(school_summary_total_students_df, students_complete_reading_passed_per_school_df, on="School Name")
 school_student_summary_per_school_merge4_df["% Passing Reading"] = (school_student_summary_per_school_merge4_df["Total Passing Reading"] / school_student_summary_per_school_merge4_df["Total Students"]) * 100
 #school_student_summary_per_school_merge4_df
@@ -1133,17 +1133,30 @@ reading_scores_by_grade_df
 
 
 ```python
-final_school_summary_merge7_index_2nd_copy_df = final_school_summary_merge7_index_df
-#final_school_summary_merge7_index_2nd_copy_df
-
+grouped_by_school_total_rading_math_score_df
+school_summary_merge1_df
+students_complete_reading_passed_per_school_df
+students_complete_math_passed_per_school_df
+final_merger_for_per_student_spending_df = pd.merge(school_summary_merge1_df,grouped_by_school_total_rading_math_score_df,  on="School Name")
+final_merger_for_per_student_spending_df = pd.merge(final_merger_for_per_student_spending_df,students_complete_reading_passed_per_school_df,  on="School Name")
+final_merger_for_per_student_spending_df = pd.merge(final_merger_for_per_student_spending_df,students_complete_math_passed_per_school_df,  on="School Name")
+final_merger_for_per_student_spending_df.columns
 ```
 
 
-```python
-final_school_summary_merge7_index_2nd_copy_df.reset_index(inplace=True)
-final_school_summary_merge7_index_per_student_spending_df = final_school_summary_merge7_index_2nd_copy_df [["Per Student Budget", "Average Math Score", "Average Reading Score","% Passing Reading", "% Passing Math", "Overall Passing Rate"]]
-#final_school_summary_merge7_index_per_student_spending_df
 
+
+    Index(['School Name', 'School Type', 'Total Students', 'Total School Budget',
+           'Per Student Budget', 'reading_score', 'math_score',
+           'Total Passing Reading', 'Total Passing Math'],
+          dtype='object')
+
+
+
+
+```python
+reduced_final_merger_for_per_student_spending_df = final_merger_for_per_student_spending_df[['Per Student Budget','School Type', 'Total Students', 'Total School Budget', 'reading_score', 'math_score','Total Passing Reading', 'Total Passing Math']]
+#reduced_final_merger_for_per_student_spending_df
 ```
 
 
@@ -1154,29 +1167,27 @@ group_names = ['<$585', '$585-$600', '$600-$625', '$625-$660']
 
 
 ```python
-final_school_summary_merge7_index_per_student_spending_df["Spending Ranges (Per Student)"] = pd.cut(final_school_summary_merge7_index_per_student_spending_df["Per Student Budget"], bins, labels=group_names)
-#final_school_summary_merge7_index_per_student_spending_df
+reduced_final_merger_for_per_student_spending_df["Spending Ranges (Per Student)"] = pd.cut(reduced_final_merger_for_per_student_spending_df["Per Student Budget"], bins, labels=group_names)
+#reduced_final_merger_for_per_student_spending_df
 
-```
-
-    /anaconda3/lib/python3.6/site-packages/ipykernel_launcher.py:1: SettingWithCopyWarning: 
-    A value is trying to be set on a copy of a slice from a DataFrame.
-    Try using .loc[row_indexer,col_indexer] = value instead
-    
-    See the caveats in the documentation: http://pandas.pydata.org/pandas-docs/stable/indexing.html#indexing-view-versus-copy
-      """Entry point for launching an IPython kernel.
-
-
-
-```python
-final_school_summary_merge7_index_per_student_spending_df = final_school_summary_merge7_index_per_student_spending_df [["Spending Ranges (Per Student)","Average Math Score","Average Reading Score","% Passing Reading","% Passing Math","Overall Passing Rate"]]
-#final_school_summary_merge7_index_per_student_spending_df
 ```
 
 
 ```python
-grouped_by_final_school_summary_merge7_index_per_student_spending_df = pd.DataFrame(final_school_summary_merge7_index_per_student_spending_df.groupby("Spending Ranges (Per Student)")["Average Math Score","Average Reading Score","% Passing Reading","% Passing Math","Overall Passing Rate"].sum())
-grouped_by_final_school_summary_merge7_index_per_student_spending_df
+rearange_reduced_final_merger_for_per_student_spending_df = reduced_final_merger_for_per_student_spending_df [["Spending Ranges (Per Student)",'Per Student Budget', 'School Type', 'Total Students','Total School Budget', 'reading_score', 'math_score','Total Passing Reading', 'Total Passing Math',]]
+#rearange_reduced_final_merger_for_per_student_spending_df
+```
+
+
+```python
+groupedby_rearange_reduced_final_merger_for_per_student_spending_df = pd.DataFrame(rearange_reduced_final_merger_for_per_student_spending_df.groupby("Spending Ranges (Per Student)")['Per Student Budget', 'School Type','Total Students', 'Total School Budget', 'reading_score', 'math_score','Total Passing Reading', 'Total Passing Math'].sum())
+groupedby_rearange_reduced_final_merger_for_per_student_spending_df["Average Math Score"] = groupedby_rearange_reduced_final_merger_for_per_student_spending_df["math_score"] / groupedby_rearange_reduced_final_merger_for_per_student_spending_df["Total Students"]
+groupedby_rearange_reduced_final_merger_for_per_student_spending_df["Average Reading Score"] = groupedby_rearange_reduced_final_merger_for_per_student_spending_df["reading_score"] / groupedby_rearange_reduced_final_merger_for_per_student_spending_df["Total Students"]
+groupedby_rearange_reduced_final_merger_for_per_student_spending_df["% Passing Math"] = (groupedby_rearange_reduced_final_merger_for_per_student_spending_df ["Total Passing Math"] / groupedby_rearange_reduced_final_merger_for_per_student_spending_df["Total Students"]) * 100
+groupedby_rearange_reduced_final_merger_for_per_student_spending_df["% Passing Reading"] = (groupedby_rearange_reduced_final_merger_for_per_student_spending_df ["Total Passing Reading"] / groupedby_rearange_reduced_final_merger_for_per_student_spending_df["Total Students"]) * 100
+groupedby_rearange_reduced_final_merger_for_per_student_spending_df["% Overall Passing Rate"] = (groupedby_rearange_reduced_final_merger_for_per_student_spending_df ["% Passing Math"] + groupedby_rearange_reduced_final_merger_for_per_student_spending_df ["% Passing Reading"]) / 2
+reduced_groupedby_rearange_reduced_final_merger_for_per_student_spending_df = groupedby_rearange_reduced_final_merger_for_per_student_spending_df[["Average Math Score","Average Reading Score","% Passing Math","% Passing Reading","% Overall Passing Rate"]]
+reduced_groupedby_rearange_reduced_final_merger_for_per_student_spending_df
 ```
 
 
@@ -1202,9 +1213,9 @@ grouped_by_final_school_summary_merge7_index_per_student_spending_df
       <th></th>
       <th>Average Math Score</th>
       <th>Average Reading Score</th>
-      <th>% Passing Reading</th>
       <th>% Passing Math</th>
-      <th>Overall Passing Rate</th>
+      <th>% Passing Reading</th>
+      <th>% Overall Passing Rate</th>
     </tr>
     <tr>
       <th>Spending Ranges (Per Student)</th>
@@ -1218,35 +1229,35 @@ grouped_by_final_school_summary_merge7_index_per_student_spending_df
   <tbody>
     <tr>
       <th>&lt;$585</th>
-      <td>333.821596</td>
-      <td>335.735256</td>
-      <td>373.303351</td>
-      <td>361.401744</td>
-      <td>367.352548</td>
+      <td>83.363065</td>
+      <td>83.964039</td>
+      <td>90.326633</td>
+      <td>93.451633</td>
+      <td>91.889133</td>
     </tr>
     <tr>
       <th>$585-$600</th>
       <td>83.359455</td>
       <td>83.725724</td>
-      <td>92.617831</td>
       <td>89.892107</td>
+      <td>92.617831</td>
       <td>91.254969</td>
     </tr>
     <tr>
       <th>$600-$625</th>
-      <td>167.191415</td>
-      <td>167.861456</td>
-      <td>185.596113</td>
-      <td>181.397888</td>
-      <td>183.497000</td>
+      <td>83.544856</td>
+      <td>83.906996</td>
+      <td>90.493827</td>
+      <td>92.921811</td>
+      <td>91.707819</td>
     </tr>
     <tr>
       <th>$625-$660</th>
-      <td>622.115480</td>
-      <td>650.615384</td>
-      <td>641.177111</td>
-      <td>540.331761</td>
-      <td>590.754436</td>
+      <td>77.354549</td>
+      <td>81.127434</td>
+      <td>65.785887</td>
+      <td>79.200308</td>
+      <td>72.493097</td>
     </tr>
   </tbody>
 </table>
@@ -1256,42 +1267,36 @@ grouped_by_final_school_summary_merge7_index_per_student_spending_df
 
 
 ```python
-final_school_summary_merge7_index_school_size_df = final_school_summary_merge7_index_2nd_copy_df [["Total Students", "Average Math Score", "Average Reading Score","% Passing Reading", "% Passing Math", "Overall Passing Rate"]]
-#final_school_summary_merge7_index_school_size_df
+reduced_final_merger_for_per_school_size_df = final_merger_for_per_student_spending_df[['Total Students','Per Student Budget','School Type','Total School Budget', 'reading_score', 'math_score','Total Passing Reading', 'Total Passing Math']]
+#reduced_final_merger_for_per_school_size_df
+
 ```
 
 
 ```python
 bins = [100, 1000, 3000, 5000]
 group_names = ['Small(<1000)', 'Medium(1000-3000)', 'Large(3000-5000)']
+reduced_final_merger_for_per_school_size_df["School Size"] = pd.cut(reduced_final_merger_for_per_school_size_df["Total Students"], bins, labels=group_names)
+#reduced_final_merger_for_per_school_size_df
 ```
 
 
 ```python
-final_school_summary_merge7_index_school_size_df["School Size"] = pd.cut(final_school_summary_merge7_index_school_size_df["Total Students"], bins, labels=group_names)
-#final_school_summary_merge7_index_school_size_df
-
-
-```
-
-    /anaconda3/lib/python3.6/site-packages/ipykernel_launcher.py:1: SettingWithCopyWarning: 
-    A value is trying to be set on a copy of a slice from a DataFrame.
-    Try using .loc[row_indexer,col_indexer] = value instead
-    
-    See the caveats in the documentation: http://pandas.pydata.org/pandas-docs/stable/indexing.html#indexing-view-versus-copy
-      """Entry point for launching an IPython kernel.
-
-
-
-```python
-final_school_summary_merge7_index_school_size_df = final_school_summary_merge7_index_school_size_df [["School Size","Average Math Score","Average Reading Score","% Passing Reading","% Passing Math","Overall Passing Rate"]]
-#final_school_summary_merge7_index_school_size_df
+rearange_reduced_final_merger_for_per_school_size_df = reduced_final_merger_for_per_school_size_df[['School Size','Total Students', 'Per Student Budget', 'School Type','Total School Budget', 'reading_score', 'math_score','Total Passing Reading', 'Total Passing Math']]
+#rearange_reduced_final_merger_for_per_school_size_df
 ```
 
 
 ```python
-grouped_by_final_school_summary_merge7_index_school_size_df = pd.DataFrame(final_school_summary_merge7_index_school_size_df.groupby("School Size")["Average Math Score","Average Reading Score","% Passing Reading","% Passing Math","Overall Passing Rate"].sum())
-grouped_by_final_school_summary_merge7_index_school_size_df
+groupedby_rearange_reduced_final_merger_for_per_school_size_df = pd.DataFrame(rearange_reduced_final_merger_for_per_school_size_df.groupby("School Size")['Per Student Budget', 'School Type','Total Students', 'Total School Budget', 'reading_score', 'math_score','Total Passing Reading', 'Total Passing Math'].sum())
+groupedby_rearange_reduced_final_merger_for_per_school_size_df["Average Math Score"] = groupedby_rearange_reduced_final_merger_for_per_school_size_df["math_score"] / groupedby_rearange_reduced_final_merger_for_per_school_size_df["Total Students"]
+groupedby_rearange_reduced_final_merger_for_per_school_size_df["Average Reading Score"] = groupedby_rearange_reduced_final_merger_for_per_school_size_df["reading_score"] / groupedby_rearange_reduced_final_merger_for_per_school_size_df["Total Students"]
+groupedby_rearange_reduced_final_merger_for_per_school_size_df["% Passing Math"] = (groupedby_rearange_reduced_final_merger_for_per_school_size_df ["Total Passing Math"] / groupedby_rearange_reduced_final_merger_for_per_school_size_df["Total Students"]) * 100
+groupedby_rearange_reduced_final_merger_for_per_school_size_df["% Passing Reading"] = (groupedby_rearange_reduced_final_merger_for_per_school_size_df ["Total Passing Reading"] / groupedby_rearange_reduced_final_merger_for_per_school_size_df["Total Students"]) * 100
+groupedby_rearange_reduced_final_merger_for_per_school_size_df["% Overall Passing Rate"] = (groupedby_rearange_reduced_final_merger_for_per_school_size_df ["% Passing Math"] + groupedby_rearange_reduced_final_merger_for_per_school_size_df ["% Passing Reading"]) / 2
+reduced_groupedby_rearange_reduced_final_merger_for_per_school_size_df = groupedby_rearange_reduced_final_merger_for_per_school_size_df[["Average Math Score","Average Reading Score","% Passing Math","% Passing Reading","% Overall Passing Rate"]]
+reduced_groupedby_rearange_reduced_final_merger_for_per_school_size_df
+
 ```
 
 
@@ -1317,9 +1322,9 @@ grouped_by_final_school_summary_merge7_index_school_size_df
       <th></th>
       <th>Average Math Score</th>
       <th>Average Reading Score</th>
-      <th>% Passing Reading</th>
       <th>% Passing Math</th>
-      <th>Overall Passing Rate</th>
+      <th>% Passing Reading</th>
+      <th>% Overall Passing Rate</th>
     </tr>
     <tr>
       <th>School Size</th>
@@ -1333,27 +1338,27 @@ grouped_by_final_school_summary_merge7_index_school_size_df
   <tbody>
     <tr>
       <th>Small(&lt;1000)</th>
-      <td>167.643196</td>
-      <td>167.859687</td>
-      <td>184.943789</td>
-      <td>182.316310</td>
-      <td>183.630050</td>
+      <td>83.828654</td>
+      <td>83.974082</td>
+      <td>91.360691</td>
+      <td>92.368611</td>
+      <td>91.864651</td>
     </tr>
     <tr>
       <th>Medium(1000-3000)</th>
-      <td>730.591392</td>
-      <td>746.398679</td>
-      <td>794.235962</td>
-      <td>733.412323</td>
-      <td>763.824142</td>
+      <td>80.450902</td>
+      <td>82.626481</td>
+      <td>78.660484</td>
+      <td>86.609995</td>
+      <td>82.635240</td>
     </tr>
     <tr>
       <th>Large(3000-5000)</th>
-      <td>308.253359</td>
-      <td>323.679455</td>
-      <td>313.514655</td>
-      <td>257.294868</td>
-      <td>285.404761</td>
+      <td>77.070764</td>
+      <td>80.928365</td>
+      <td>64.335093</td>
+      <td>78.417070</td>
+      <td>71.376082</td>
     </tr>
   </tbody>
 </table>
@@ -1363,14 +1368,20 @@ grouped_by_final_school_summary_merge7_index_school_size_df
 
 
 ```python
-final_school_summary_merge7_index_school_type_df = final_school_summary_merge7_index_2nd_copy_df [["School Type", "Average Math Score", "Average Reading Score","% Passing Reading", "% Passing Math", "Overall Passing Rate"]]
-#final_school_summary_merge7_index_school_type_df
+reduced_final_merger_for_per_school_type_df = final_merger_for_per_student_spending_df[['School Type','Total Students','Per Student Budget','Total School Budget', 'reading_score', 'math_score','Total Passing Reading', 'Total Passing Math']]
+#reduced_final_merger_for_per_school_type_df
 ```
 
 
 ```python
-grouped_by_final_school_summary_merge7_index_school_type_df = pd.DataFrame(final_school_summary_merge7_index_school_type_df.groupby("School Type")["Average Math Score","Average Reading Score","% Passing Reading","% Passing Math","Overall Passing Rate"].sum())
-grouped_by_final_school_summary_merge7_index_school_type_df
+groupedby_reduced_final_merger_for_per_school_type_df = pd.DataFrame(rearange_reduced_final_merger_for_per_school_size_df.groupby("School Type")['Per Student Budget','Total Students', 'Total School Budget', 'reading_score', 'math_score','Total Passing Reading', 'Total Passing Math'].sum())
+groupedby_reduced_final_merger_for_per_school_type_df["Average Math Score"] = groupedby_reduced_final_merger_for_per_school_type_df["math_score"] / groupedby_reduced_final_merger_for_per_school_type_df["Total Students"]
+groupedby_reduced_final_merger_for_per_school_type_df["Average Reading Score"] = groupedby_reduced_final_merger_for_per_school_type_df["reading_score"] / groupedby_reduced_final_merger_for_per_school_type_df["Total Students"]
+groupedby_reduced_final_merger_for_per_school_type_df["% Passing Math"] = (groupedby_reduced_final_merger_for_per_school_type_df ["Total Passing Math"] / groupedby_reduced_final_merger_for_per_school_type_df["Total Students"]) * 100
+groupedby_reduced_final_merger_for_per_school_type_df["% Passing Reading"] = (groupedby_reduced_final_merger_for_per_school_type_df ["Total Passing Reading"] / groupedby_reduced_final_merger_for_per_school_type_df["Total Students"]) * 100
+groupedby_reduced_final_merger_for_per_school_type_df["% Overall Passing Rate"] = (groupedby_reduced_final_merger_for_per_school_type_df ["% Passing Math"] + groupedby_reduced_final_merger_for_per_school_type_df ["% Passing Reading"]) / 2
+reduced_groupedby_reduced_final_merger_for_per_school_type_df = groupedby_reduced_final_merger_for_per_school_type_df[["Average Math Score","Average Reading Score","% Passing Math","% Passing Reading","% Overall Passing Rate"]]
+reduced_groupedby_reduced_final_merger_for_per_school_type_df
 ```
 
 
@@ -1396,9 +1407,9 @@ grouped_by_final_school_summary_merge7_index_school_type_df
       <th></th>
       <th>Average Math Score</th>
       <th>Average Reading Score</th>
-      <th>% Passing Reading</th>
       <th>% Passing Math</th>
-      <th>Overall Passing Rate</th>
+      <th>% Passing Reading</th>
+      <th>% Overall Passing Rate</th>
     </tr>
     <tr>
       <th>School Type</th>
@@ -1412,19 +1423,19 @@ grouped_by_final_school_summary_merge7_index_school_type_df
   <tbody>
     <tr>
       <th>Charter</th>
-      <td>667.790815</td>
-      <td>671.171366</td>
-      <td>744.422494</td>
-      <td>722.905807</td>
-      <td>733.664150</td>
+      <td>83.406183</td>
+      <td>83.902821</td>
+      <td>90.282106</td>
+      <td>93.152370</td>
+      <td>91.717238</td>
     </tr>
     <tr>
       <th>District</th>
-      <td>538.697131</td>
-      <td>566.766454</td>
-      <td>548.271912</td>
-      <td>450.117694</td>
-      <td>499.194803</td>
+      <td>76.987026</td>
+      <td>80.962485</td>
+      <td>64.305308</td>
+      <td>78.369662</td>
+      <td>71.337485</td>
     </tr>
   </tbody>
 </table>
