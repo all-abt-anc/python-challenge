@@ -17,7 +17,7 @@ uniq_candidate_list = []
 vote_count_per_candidate_list = []
 avrge_vote_list = []
 
-with open('/Users/afnanchowdhury/Desktop/GW Bootcamp/Python/python-practice/PyPoll/raw_data/election_data_2.csv', 'r') as infile:
+with open('raw_data/election_data_2.csv', 'r') as infile:
     infile.readline()  #skipping the first line, Header
     for row in infile:  #looping between rows
         total_voted = total_voted + 1   #counting total rows or voters

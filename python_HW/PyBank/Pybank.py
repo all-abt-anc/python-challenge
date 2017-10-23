@@ -14,7 +14,7 @@ def print_both(file, *args):
 
 file =open('PyBank.out.txt', 'w')
 
-with open('/Users/afnanchowdhury/Desktop/GW Bootcamp/Python/python-practice/PyBank/budget_data_1.csv', 'r') as infile:
+with open('raw_data/budget_data_1.csv', 'r') as infile:
     infile.readline()       #skipping first line
     for row in infile:      #Looping between rows
         month = month + 1   # taking the count of total row to get the total months
